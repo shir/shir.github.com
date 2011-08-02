@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
+url: http://shir.github.com
+title: My Blog
 subtitle: A blogging framework for hackers.
-author: Your Name
+author: Ildar Shaynurov
 simple_search: http://google.com/search
 
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
@@ -48,7 +48,7 @@ default_asides: [asides/recent_posts.html, asides/twitter.html, asides/delicious
 # ----------------------- #
 
 # Twitter
-twitter_user:
+twitter_user: _shir_
 twitter_tweet_count: 4
 twitter_show_replies: false
 twitter_follow_button: true
