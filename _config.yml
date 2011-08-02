@@ -3,8 +3,8 @@
 # ----------------------- #
 
 url: http://shir.github.com
-title: My Blog
-subtitle: A blogging framework for hackers.
+title: Ildar Shaynurov's blog
+subtitle:
 author: Ildar Shaynurov
 simple_search: http://google.com/search
 
@@ -48,7 +48,7 @@ default_asides: [asides/recent_posts.html, asides/twitter.html, asides/delicious
 # ----------------------- #
 
 # Twitter
-twitter_user: _shir_
+twitter_user:
 twitter_tweet_count: 4
 twitter_show_replies: false
 twitter_follow_button: true
