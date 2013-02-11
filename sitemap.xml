@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+    <url>
+        <loc>http://shir.github.com/blog/2011/08/02/log-return-value/</loc>
+        <lastmod>2013-02-11T23:36:59+04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://shir.github.com/blog/2011/08/02/remote-before-events/</loc>
+        <lastmod>2013-02-11T23:36:59+04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://shir.github.com/blog/2011/08/02/remove-trailling-spaces/</loc>
+        <lastmod>2013-02-11T23:36:59+04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://shir.github.com/blog/2011/08/02/variables-in-regexp/</loc>
+        <lastmod>2013-02-11T23:36:59+04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://shir.github.com/blog/2011/08/02/dots-in-routes/</loc>
+        <lastmod>2013-02-11T23:36:59+04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://shir.github.com/blog/archives/</loc>
+        <lastmod>2013-02-11T23:36:59+04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://shir.github.com/</loc>
+        <lastmod>2013-02-11T23:36:59+04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://shir.github.com/robots.txt</loc>
+        <lastmod>2013-02-11T23:36:59+04:00</lastmod>
+    </url>
+</urlset>

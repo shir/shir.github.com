@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | Ildar Shaynurov's blog]]></title>
+  <link href="http://shir.github.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://shir.github.com/"/>
+  <updated>2013-02-11T23:37:06+04:00</updated>
+  <id>http://shir.github.com/</id>
+  <author>
+    <name><![CDATA[Ildar Shaynurov]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby: Переменные в регулярных выражениях]]></title>
+    <link href="http://shir.github.com/blog/2011/08/02/variables-in-regexp/"/>
+    <updated>2011-08-02T15:36:00+04:00</updated>
+    <id>http://shir.github.com/blog/2011/08/02/variables-in-regexp</id>
+    <content type="html"><![CDATA[<p>Бывает что нужно вставить одно регулярное выражение в другое.
+Это можно сделать так же как со строкой:</p>
+
+<p>``` irb</p>
+
+<pre><code> &gt; REGEXP1 = /[A-Za-z0-9\_][A-Za-z0-9\-\_\.]+/
+ &gt; /^#{REGEXP1}$/
+ =&gt; /^(?-mix:[A-Za-z0-9\_][A-Za-z0-9\-\_\.]+)$/
+</code></pre>
+
+<p>```</p>
+
+<p>Но при такой вставке могут быть проблемы при дальнейшем преобразовании,
+например в строку. Сравните:</p>
+
+<p>``` irb</p>
+
+<pre><code>&gt; /^#{REGEXP1}$/.to_s
+=&gt; "(?-mix:^(?-mix:[A-Za-z0-9\\_][A-Za-z0-9\\-\\_\\.]+)$)"
+</code></pre>
+
+<p>```</p>
+
+<p>и</p>
+
+<p>``` irb</p>
+
+<pre><code>&gt; /^[A-Za-z0-9\_][A-Za-z0-9\-\_\.]+$/.to_s
+=&gt; "(?-mix:^[A-Za-z0-9\\_][A-Za-z0-9\\-\\_\\.]+$)"
+</code></pre>
+
+<p>```</p>
+
+<p>Как видно, в результате выражения различаются. Для того чтоб такого
+не присходило можно воспользоваться методом <code>#source</code>:</p>
+
+<p>```irb</p>
+
+<pre><code>&gt; /^#{REGEXP1.source}$/.to_s
+=&gt; "(?-mix:^[A-Za-z0-9\\_][A-Za-z0-9\\-\\_\\.]+$)"
+</code></pre>
+
+<p>```</p>
+
+<p>В этом случае результат получается аналогичный, как если бы мы не использовали
+переменную.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby: Log return value]]></title>
+    <link href="http://shir.github.com/blog/2011/08/02/log-return-value/"/>
+    <updated>2011-08-02T14:55:00+04:00</updated>
+    <id>http://shir.github.com/blog/2011/08/02/log-return-value</id>
+    <content type="html"><![CDATA[<p>Если вам нужно вывести в лог возврщаемое из функции значение то можно
+воспользоваться методом <a href="http://apidock.com/ruby/Object/tap">tap()</a>:</p>
+
+<p>``` ruby</p>
+
+<pre><code>def some_function
+  complex_calculation.tap{ |v| Rails.logger.debug "returnd value = #{v}" }
+end
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

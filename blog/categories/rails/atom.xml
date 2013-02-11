@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rails | Ildar Shaynurov's blog]]></title>
+  <link href="http://shir.github.com/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://shir.github.com/"/>
+  <updated>2013-02-11T23:37:06+04:00</updated>
+  <id>http://shir.github.com/</id>
+  <author>
+    <name><![CDATA[Ildar Shaynurov]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: Точки и другие спец символы в маршрутах.]]></title>
+    <link href="http://shir.github.com/blog/2011/08/02/dots-in-routes/"/>
+    <updated>2011-08-02T15:39:00+04:00</updated>
+    <id>http://shir.github.com/blog/2011/08/02/dots-in-routes</id>
+    <content type="html"><![CDATA[<p>Иногда бывает нужно использовать точки или какие-то другие специальные
+символы в маршрутах и параметрах маршрутов. Например, мы хотим реализовать
+систему которая бует отдавать файлы только пользователям которые являются
+владельцами этих файлов.</p>
+
+<p>Создадим такой маршрут:</p>
+
+<p>``` ruby</p>
+
+<pre><code>get 'user/:user_id/files/:file_name' =&gt; 'user_files#file', :as =&gt; :user_file
+</code></pre>
+
+<p>```</p>
+
+<p>И попробуем им воспользоваться:</p>
+
+<p>``` ruby</p>
+
+<pre><code>link_to 'Download File', user_file_path('some_cool_file.jpg')
+</code></pre>
+
+<p>```</p>
+
+<p>При выполнении это кода произойдет примено такая ошибка:</p>
+
+<p>```</p>
+
+<pre><code>ActionView::Template::Error (No route matches {:action=&gt;"file", :file_name=&gt;"some_cool_file.jpg",
+:user_id=&gt;#&lt;User id: 27&gt;, :controller=&gt;"user_files"}):
+</code></pre>
+
+<p>```</p>
+
+<p>Это происходит потому что <code>.jpg</code> интерпертируется как формат, а формата .jpg
+в этом action не предусмотрено. Для исправления нужно указать что
+это расширение часть параметра <code>:file_name</code>. Сделать это можно
+путем указания ограничения по регулярному выражение для этого параметра
+включающего все символы <code>/.+/</code>:</p>
+
+<p>``` ruby</p>
+
+<pre><code>get 'user/:user_id/files/:file_name' =&gt; 'user_files#file', :as =&gt; :user_file, 
+  :constraints =&gt; {:file =&gt; /.+/ }
+</code></pre>
+
+<p>```</p>
+
+<p>Учтите что это регулярное выражение включает <em>все</em> символы, и в маршруте
+вида <code>/user/1/files/pictures/coolest/some_cool_picture.jpg</code> в параметр <code>:file</code>
+будет переданно значение <code>coolest/some_cool_picture.jpg</code>. Если же вы не хотите
+интерпретировать <code>/</code> как часть параметра то этот символ надо исключить
+из регулярного выражения:</p>
+
+<p>``` ruby</p>
+
+<pre><code>get 'user/:user_id/files/:file_name' =&gt; 'user_files#file', :as =&gt; :user_file, 
+  :constraints =&gt; {:file =&gt; /[^\/]+/ }
+</code></pre>
+
+<p>```</p>
+
+<p>В этом случае попытка построения маршурта вида:</p>
+
+<p>``` ruby</p>
+
+<pre><code>link_to 'Download File', user_file_path('pictures/coolest/some_cool_picture.jpg')
+</code></pre>
+
+<p>```</p>
+
+<p>будет вызывать ошибку.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: события <tt>before</tt> и <tt>after</tt> для <tt>remote</tt> ссылок.]]></title>
+    <link href="http://shir.github.com/blog/2011/08/02/remote-before-events/"/>
+    <updated>2011-08-02T15:26:00+04:00</updated>
+    <id>http://shir.github.com/blog/2011/08/02/remote-before-events</id>
+    <content type="html"><![CDATA[<p>У нас есть ссылка которая делает ajax запрос:</p>
+
+<p>``` ruby</p>
+
+<pre><code>link_to 'Cool work', cool_work_path, :remote =&gt; true
+</code></pre>
+
+<p>```</p>
+
+<p>Мы хотим сделать какую-то обработку перед отправление запрос и после его выполнения.
+Для этого в пакете jquery-rails предусмотрены следующие события:</p>
+
+<ul>
+<li><code>ajax:before</code> - Вызывается в самом начале обработки запроса.</li>
+<li><code>ajax:beforeSend</code> - Вызывается непосредственно перед отправкой запроса. Если возвращается false
+ то выполнение запроса будет остановлено.</li>
+<li><code>ajax:success</code> - Вызывается непосредственно после выполнения запроса если он был выполнен успешно.</li>
+<li><code>ajax:complete</code> - Вызывается после выполнения запроса независимо от статуса.</li>
+<li><code>ajax:error</code> - Вызывается если произошла ошибка.</li>
+</ul>
+
+
+<p>Вернемся к нашей ссылке. Добавим к ней аттрибут <code>id</code> чтоб было легче на нее ссылаться.</p>
+
+<p>``` ruby</p>
+
+<pre><code>link_to 'Cool work', cool_work_path, :remote =&gt; true, :id =&gt; 'cool_link'
+</code></pre>
+
+<p>```</p>
+
+<p>И в application.js пишем обработчик для событий.</p>
+
+<p>``` javascript</p>
+
+<pre><code>$(function () {
+  $("#cool_link").live("ajax:before", function () {
+    $(this).html("Processing...")
+  };
+});
+
+$(function () {
+  $("#cool_link").live("ajax:complete", function () {
+    $(this).html("Cool work")
+  };
+});
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>
